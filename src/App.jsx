@@ -92,103 +92,56 @@ const MainContent = () => (
           <h2 className="text-2xl font-semibold mb-4">Prerequisites</h2>
           <ul className="list-disc pl-6 mb-6">
             <li>Node.js (v14 or higher)</li>
-            <li>MySQL (v8 or higher)</li>
-            <li>SSL certificate for your domain</li>
-            <li>Redis (v6 or higher) for caching</li>
-            <li>SMTP server for email notifications</li>
+            <li>Git</li>
+            <li>GitHub account with repository access</li>
           </ul>
 
-          <h2 className="text-2xl font-semibold mb-4">Environment Setup</h2>
-          
-          <h3 className="text-xl font-semibold mb-3">Frontend Environment Variables</h3>
-          <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-            <code>VITE_APP_API_URL=https://api.yourdomain.com
-VITE_APP_JWT_SECRET=your_jwt_secret
-VITE_APP_REDIS_URL=redis://localhost:6379</code>
-          </pre>
-
-          <h3 className="text-xl font-semibold mb-3">Backend Environment Variables</h3>
-          <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-            <code>NODE_ENV=production
-PORT=3000
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=your_password
-DB_NAME=ticket_system
-REDIS_URL=redis://localhost:6379
-SMTP_HOST=smtp.office365.com
-SMTP_PORT=587
-SMTP_USER=your_email@domain.com
-SMTP_CLIENT_ID=your_smtp_client_id
-SMTP_CLIENT_SECRET=your_smtp_client_secret
-JWT_SECRET=your_secure_jwt_secret
-CORS_ORIGIN=https://yourdomain.com</code>
-          </pre>
-
-          <h2 className="text-2xl font-semibold mb-4">Frontend Deployment</h2>
+          <h2 className="text-2xl font-semibold mb-4">Build and Deploy</h2>
           <ol className="list-decimal pl-6 mb-6">
             <li className="mb-4">
-              <p>Build the frontend:</p>
+              <p>Build the documentation site:</p>
               <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-                <code>cd client
-npm run build</code>
+                <code>npm run build</code>
               </pre>
             </li>
             <li className="mb-4">
-              <p>The build output will be in the `dist` directory. Deploy these static files to your web server or CDN.</p>
+              <p>The build output will be in the `dist` directory. You can deploy to GitHub Pages using the provided script:</p>
+              <pre className="bg-gray-100 p-4 rounded-lg mb-4">
+                <code>npm run deploy</code>
+              </pre>
             </li>
             <li>
-              <p>Configure your web server (e.g., Nginx) to serve the static files and handle client-side routing:</p>
+              <p>After deployment, your documentation will be available at:</p>
+              <pre className="bg-gray-100 p-4 rounded-lg mb-4">
+                <code>https://[your-github-username].github.io/rentickets/</code>
+              </pre>
+            </li>
+          </ol>
+
+          <h2 className="text-2xl font-semibold mb-4">Manual Deployment</h2>
+          <p>If you prefer to deploy to your own web server:</p>
+          <ol className="list-decimal pl-6 mb-6">
+            <li className="mb-4">
+              <p>Build the site:</p>
+              <pre className="bg-gray-100 p-4 rounded-lg mb-4">
+                <code>npm run build</code>
+              </pre>
+            </li>
+            <li className="mb-4">
+              <p>Copy the contents of the `dist` directory to your web server's root directory.</p>
+            </li>
+            <li>
+              <p>Configure your web server (e.g., Nginx) to serve the static files:</p>
               <pre className="bg-gray-100 p-4 rounded-lg mb-4">
                 <code>{`server {
-    listen 443 ssl;
+    listen 80;
     server_name yourdomain.com;
-
-    ssl_certificate /path/to/cert.pem;
-    ssl_certificate_key /path/to/key.pem;
 
     root /path/to/dist;
     index index.html;
 
     location / {
         try_files $uri $uri/ /index.html;
-    }
-}`}</code>
-              </pre>
-            </li>
-          </ol>
-
-          <h2 className="text-2xl font-semibold mb-4">Backend Deployment</h2>
-          <ol className="list-decimal pl-6 mb-6">
-            <li className="mb-4">
-              <p>Build the backend:</p>
-              <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-                <code>cd server
-npm run build</code>
-              </pre>
-            </li>
-            <li className="mb-4">
-              <p>Set up a process manager (PM2):</p>
-              <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-                <code>npm install -g pm2
-pm2 start src/index.js --name "ticketing-api"</code>
-              </pre>
-            </li>
-            <li>
-              <p>Configure reverse proxy (Nginx):</p>
-              <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-                <code>{`server {
-    listen 443 ssl;
-    server_name api.yourdomain.com;
-
-    ssl_certificate /path/to/cert.pem;
-    ssl_certificate_key /path/to/key.pem;
-
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
     }
 }`}</code>
               </pre>
@@ -219,43 +172,25 @@ git clone https://github.com/DankiCalamari/rentickets.git
 # Navigate to project directory
 cd rentickets
 
-# Install dependencies for all components
-npm run install-all
-
-# Copy environment files
-cp .env.example .env
-cp client/.env.example client/.env
-cp server/.env.example server/.env`}
+# Install dependencies
+npm install`}
             </pre>
 
-            <h3 className="text-lg font-semibold mb-2">2. Database Setup</h3>
+            <h3 className="text-lg font-semibold mb-2">2. Local Development</h3>
             <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-              {`# Create database
-mysql -u root -p
-CREATE DATABASE ticket_system;
+              {`# Start the development server
+npm run dev
 
-# Configure your database connection in .env file
-# Then run migrations
-cd server
-npm run migrate
-
-# Seed initial data (if available)
-npm run seed`}
+# The documentation site will be available at http://localhost:3002`}
             </pre>
 
-            <h3 className="text-lg font-semibold mb-2">3. Start the Application</h3>
+            <h3 className="text-lg font-semibold mb-2">3. Build and Deploy</h3>
             <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-              {`# Start the backend server
-cd server
-npm run dev
-
-# In a new terminal, start the frontend
-cd client
-npm run dev
-
-# For production
+              {`# Build the documentation site
 npm run build
-npm start`}
+
+# Deploy to GitHub Pages
+npm run deploy`}
             </pre>
           </div>
 
@@ -268,7 +203,7 @@ npm start`}
               <p>If you encounter database connection issues:</p>
               <ul className="list-disc pl-6">
                 <li>Verify MySQL is running</li>
-                <li>Check database credentials in .env</li>
+                <li>Check database credentials in example.env</li>
                 <li>Ensure database exists and is accessible</li>
               </ul>
             </div>

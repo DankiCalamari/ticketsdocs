@@ -18,14 +18,7 @@
 
 ## Environment Setup
 
-### Frontend Environment Variables
-```env
-VITE_APP_API_URL=https://api.yourdomain.com
-VITE_APP_AZURE_CLIENT_ID=your_azure_client_id
-VITE_APP_AZURE_TENANT_ID=your_azure_tenant_id
-```
-
-### Backend Environment Variables
+### Environment Variables
 ```env
 NODE_ENV=production
 PORT=3000
