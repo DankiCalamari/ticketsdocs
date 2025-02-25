@@ -5,32 +5,68 @@
 @layer base {
   html {
     -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
   }
+
   body {
-    @apply antialiased text-gray-800;
+    @apply antialiased text-gray-800 dark:text-dark-text leading-relaxed dark:bg-dark-bg;
   }
+
   h1 {
-    @apply text-4xl font-bold mb-6;
+    @apply text-4xl font-bold mb-8 text-gray-900 dark:text-dark-heading tracking-tight;
   }
+
   h2 {
-    @apply text-3xl font-semibold mb-4;
+    @apply text-3xl font-semibold mb-6 text-gray-800 dark:text-dark-heading tracking-tight;
   }
+
   h3 {
-    @apply text-2xl font-semibold mb-3;
+    @apply text-2xl font-semibold mb-4 text-gray-800 dark:text-dark-heading;
   }
+
   h4 {
-    @apply text-xl font-semibold mb-2;
+    @apply text-xl font-semibold mb-3 text-gray-800 dark:text-dark-heading;
   }
+
   p {
-    @apply mb-4;
+    @apply mb-6 text-gray-700 dark:text-dark-text leading-relaxed;
   }
+
   a {
-    @apply text-primary-600 hover:text-primary-700;
+    @apply text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors duration-200;
   }
+
   code {
-    @apply bg-gray-100 px-1 py-0.5 rounded text-sm;
+    @apply bg-gray-100 dark:bg-dark-card px-2 py-1 rounded text-sm font-mono text-gray-800 dark:text-dark-text border dark:border-dark-border;
   }
+
   pre {
-    @apply bg-gray-100 p-4 rounded-lg mb-4 overflow-x-auto;
+    @apply bg-gray-100 dark:bg-dark-card p-6 rounded-lg mb-6 overflow-x-auto border border-gray-200 dark:border-dark-border shadow-sm dark:shadow-lg;
+    min-height: fit-content;
+    height: auto;
+  }
+
+  ul, ol {
+    @apply mb-6 space-y-2;
+  }
+
+  li {
+    @apply text-gray-700 dark:text-dark-text;
+  }
+
+  blockquote {
+    @apply border-l-4 border-primary-500 pl-4 italic my-6 text-gray-700 dark:text-dark-text bg-gray-50 dark:bg-dark-card rounded-r py-2;
+  }
+
+  section {
+    @apply bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-lg p-6 mb-8 shadow-sm dark:shadow-lg;
+  }
+
+  .environment-section {
+    @apply bg-gray-50 dark:bg-dark-card border-l-4 border-green-500 dark:border-green-400;
+  }
+
+  .auth-section {
+    @apply bg-gray-50 dark:bg-dark-card border-l-4 border-blue-500 dark:border-blue-400;
   }
 }

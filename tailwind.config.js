@@ -4,6 +4,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -19,6 +20,15 @@ export default {
           800: '#075985',
           900: '#0c4a6e',
         },
+        dark: {
+          bg: '#121212',
+          card: '#1e1e1e',
+          border: '#2c2c2c',
+          text: '#e0e0e0',
+          heading: '#ffffff',
+          muted: '#a0a0a0',
+          hover: '#2a2a2a'
+        }
       },
       typography: {
         DEFAULT: {
@@ -33,8 +43,29 @@ export default {
             },
           },
         },
+        dark: {
+          css: {
+            color: '#e0e0e0',
+            a: {
+              color: '#38bdf8',
+              '&:hover': {
+                color: '#7dd3fc',
+              },
+            },
+            h1: { color: '#ffffff' },
+            h2: { color: '#ffffff' },
+            h3: { color: '#ffffff' },
+            h4: { color: '#ffffff' },
+            code: { color: '#e0e0e0', backgroundColor: '#1e1e1e' },
+            pre: { backgroundColor: '#1e1e1e', borderColor: '#2c2c2c' },
+            strong: { color: '#ffffff' },
+            blockquote: { borderLeftColor: '#38bdf8', color: '#e0e0e0' },
+            'ul > li::before': { backgroundColor: '#a0a0a0' },
+            'ol > li::before': { color: '#a0a0a0' },
+          },
+        },
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 }

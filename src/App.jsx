@@ -1,50 +1,103 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
 
-const Sidebar = () => (
-  <aside className="w-64 h-screen bg-white border-r border-gray-200 fixed left-0 top-0 overflow-y-auto">
-    <div className="p-6">
-      <h1 className="text-xl font-bold text-gray-900">Ticket System</h1>
-      <nav className="mt-6">
-        <ul className="space-y-2">
-          <li>
-            <Link to="/" className="block p-2 rounded hover:bg-gray-100">Getting Started</Link>
-          </li>
-          <li>
-            <Link to="/installation" className="block p-2 rounded hover:bg-gray-100">Installation</Link>
-          </li>
-          <li>
-            <Link to="/configuration" className="block p-2 rounded hover:bg-gray-100">Configuration</Link>
-          </li>
-          <li>
-            <Link to="/api" className="block p-2 rounded hover:bg-gray-100">API Reference</Link>
-          </li>
-          <li>
-            <Link to="/production" className="block p-2 rounded hover:bg-gray-100">Production Deployment</Link>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </aside>
-)
+const Sidebar = () => {
+  const [isDark, setIsDark] = useState(false)
+
+  useEffect(() => {
+    // Check system preference on mount
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setIsDark(true)
+      document.documentElement.classList.add('dark')
+    }
+  }, [])
+
+  const toggleTheme = () => {
+    setIsDark(!isDark)
+    document.documentElement.classList.toggle('dark')
+  }
+
+  return (
+    <aside className="w-64 h-screen bg-white dark:bg-dark-bg border-r border-gray-200 dark:border-dark-border fixed left-0 top-0 overflow-y-auto">
+      <div className="p-6">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-dark-heading">Ticket System</h1>
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-card transition-colors duration-200"
+            aria-label="Toggle dark mode"
+          >
+            {isDark ? (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            )}
+          </button>
+        </div>
+        <nav>
+          <ul className="space-y-3">
+            <li>
+              <Link to="/" className="block px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-card dark:text-dark-text transition-colors duration-200">
+                Getting Started
+              </Link>
+            </li>
+            <li>
+              <Link to="/installation" className="block px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-card dark:text-dark-text transition-colors duration-200">
+                Installation
+              </Link>
+            </li>
+            <li>
+              <Link to="/configuration" className="block px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-card dark:text-dark-text transition-colors duration-200">
+                Configuration
+              </Link>
+            </li>
+            <li>
+              <Link to="/api" className="block px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-card dark:text-dark-text transition-colors duration-200">
+                API Reference
+              </Link>
+            </li>
+            <li>
+              <Link to="/production" className="block px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-card dark:text-dark-text transition-colors duration-200">
+                Production Deployment
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </aside>
+  )
+}
 
 const MainContent = () => (
-  <main className="ml-64 p-8">
+  <main className="ml-64 p-8 max-w-4xl mx-auto">
     <Routes>
       <Route path="/" element={
-        <div>
-          <h1 className="text-3xl font-bold mb-6">Welcome to Ticket System</h1>
-          <p className="mb-6">This documentation will help you get started with the Ticket System, a comprehensive solution for managing support tickets and customer service.</p>
+        <div className="prose max-w-none">
+          <h1 className="text-4xl font-bold mb-8">
+            Welcome to Ticket System
+          </h1>
           
-          <h2 className="text-2xl font-semibold mb-4">Overview</h2>
-          <p className="mb-4">The Ticket System consists of two main components:</p>
-          <ul className="list-disc pl-6 mb-6">
+          <p className="text-lg mb-8">
+            This documentation will help you get started with the Ticket System,
+            a comprehensive solution for managing support tickets and customer service.
+          </p>
+          
+          <h2 className="text-3xl font-semibold mb-6">Overview</h2>
+          <p className="mb-6">
+            The Ticket System consists of two main components:
+          </p>
+          
+          <ul className="list-disc pl-8 mb-8 space-y-2">
             <li>A React-based frontend client application</li>
             <li>A Node.js backend server with Express</li>
           </ul>
 
-          <h2 className="text-2xl font-semibold mb-4">Features</h2>
-          <ul className="list-disc pl-6 mb-6">
+          <h2 className="text-3xl font-semibold mb-6">Features</h2>
+          <ul className="list-disc pl-8 mb-8 space-y-2">
             <li>User authentication and authorization</li>
             <li>Ticket creation and management</li>
             <li>Real-time updates using WebSocket</li>
@@ -56,298 +109,361 @@ const MainContent = () => (
             <li>Audit logging</li>
           </ul>
 
-          <h2 className="text-2xl font-semibold mb-4">System Requirements</h2>
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-2">Minimum Hardware Requirements</h3>
-            <ul className="list-disc pl-6 mb-4">
+          <h2 className="text-3xl font-semibold mb-6">System Requirements</h2>
+          <div className="mb-8">
+            <h3 className="text-2xl font-semibold mb-4">
+              Minimum Hardware Requirements
+            </h3>
+            
+            <ul className="list-disc pl-8 mb-6 space-y-2">
               <li>CPU: 2 cores</li>
               <li>RAM: 4GB</li>
               <li>Storage: 10GB available space</li>
             </ul>
 
-            <h3 className="text-lg font-semibold mb-2">Supported Browsers</h3>
-            <ul className="list-disc pl-6">
+            <h3 className="text-2xl font-semibold mb-4">
+              Supported Browsers
+            </h3>
+            
+            <ul className="list-disc pl-8 space-y-2">
               <li>Chrome (latest 2 versions)</li>
               <li>Firefox (latest 2 versions)</li>
               <li>Safari (latest 2 versions)</li>
               <li>Edge (latest 2 versions)</li>
             </ul>
           </div>
-
-          <h2 className="text-2xl font-semibold mb-4">Quick Start Guide</h2>
-          <ol className="list-decimal pl-6">
-            <li className="mb-2">Follow the installation guide to set up the system</li>
-            <li className="mb-2">Configure your environment variables</li>
-            <li className="mb-2">Create an admin account using the CLI tool</li>
-            <li className="mb-2">Log in to the admin dashboard</li>
-            <li className="mb-2">Set up your organization structure and user roles</li>
-            <li>Start managing tickets!</li>
-          </ol>
         </div>
       } />
-      <Route path="/production" element={
-        <div className="prose max-w-none">
-          <h1 className="text-3xl font-bold mb-6">Production Deployment Guide</h1>
-          
-          <h2 className="text-2xl font-semibold mb-4">Prerequisites</h2>
-          <ul className="list-disc pl-6 mb-6">
-            <li>Node.js (v14 or higher)</li>
-            <li>Git</li>
-            <li>GitHub account with repository access</li>
-          </ul>
-
-          <h2 className="text-2xl font-semibold mb-4">Build and Deploy</h2>
-          <ol className="list-decimal pl-6 mb-6">
-            <li className="mb-4">
-              <p>Build the documentation site:</p>
-              <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-                <code>npm run build</code>
-              </pre>
-            </li>
-            <li className="mb-4">
-              <p>The build output will be in the `dist` directory. You can deploy to GitHub Pages using the provided script:</p>
-              <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-                <code>npm run deploy</code>
-              </pre>
-            </li>
-            <li>
-              <p>After deployment, your documentation will be available at:</p>
-              <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-                <code>https://[your-github-username].github.io/rentickets/</code>
-              </pre>
-            </li>
-          </ol>
-
-          <h2 className="text-2xl font-semibold mb-4">Manual Deployment</h2>
-          <p>If you prefer to deploy to your own web server:</p>
-          <ol className="list-decimal pl-6 mb-6">
-            <li className="mb-4">
-              <p>Build the site:</p>
-              <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-                <code>npm run build</code>
-              </pre>
-            </li>
-            <li className="mb-4">
-              <p>Copy the contents of the `dist` directory to your web server's root directory.</p>
-            </li>
-            <li>
-              <p>Configure your web server (e.g., Nginx) to serve the static files:</p>
-              <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-                <code>{`server {
-    listen 80;
-    server_name yourdomain.com;
-
-    root /path/to/dist;
-    index index.html;
-
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-}`}</code>
-              </pre>
-            </li>
-          </ol>
-        </div>
-      } />
+      
       <Route path="/installation" element={
-        <div>
-          <h1 className="text-3xl font-bold mb-6">Installation Guide</h1>
-          <p className="mb-6">Follow these steps to set up the Ticket System in your environment.</p>
+        <div className="prose max-w-none">
+          <h1 className="text-4xl font-bold mb-8">
+            Installation Guide
+          </h1>
           
-          <h2 className="text-2xl font-semibold mb-4">Prerequisites</h2>
-          <ul className="list-disc pl-6 mb-6">
+          <p className="text-lg mb-8">
+            Follow this comprehensive guide to set up the Ticket System in your environment.
+          </p>
+          
+          <h2 className="text-3xl font-semibold mb-6">Prerequisites</h2>
+          <ul className="list-disc pl-8 mb-8 space-y-2">
             <li>Node.js (v14 or higher)</li>
-            <li>MySQL (v8 or higher)</li>
+            <li>PostgreSQL (v12 or higher)</li>
             <li>Git</li>
-            <li>Redis (v6 or higher) for caching and real-time features</li>
+            <li>PM2 (for production deployment)</li>
           </ul>
 
-          <h2 className="text-2xl font-semibold mb-4">Setup Steps</h2>
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-2">1. Clone and Setup</h3>
-            <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-              {`# Clone the repository
-git clone https://github.com/DankiCalamari/rentickets.git
-
-# Navigate to project directory
-cd rentickets
-
-# Install dependencies
-npm install`}
-            </pre>
-
-            <h3 className="text-lg font-semibold mb-2">2. Local Development</h3>
-            <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-              {`# Start the development server
-npm run dev
-
-# The documentation site will be available at http://localhost:3002`}
-            </pre>
-
-            <h3 className="text-lg font-semibold mb-2">3. Build and Deploy</h3>
-            <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-              {`# Build the documentation site
-npm run build
-
-# Deploy to GitHub Pages
-npm run deploy`}
-            </pre>
-          </div>
-
-          <h2 className="text-2xl font-semibold mb-4">Troubleshooting</h2>
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-2">Common Issues</h3>
+          <h2 className="text-3xl font-semibold mb-6">Database Setup</h2>
+          <ol className="list-decimal pl-8 mb-8 space-y-6">
+            <li>
+              <p className="font-semibold mb-2">Install PostgreSQL:</p>
+              <div className="bg-white dark:bg-dark-card shadow-md rounded-lg p-6 mb-4 border-l-4 border-primary-500 dark:border-primary-400">
+                <div className="font-mono text-sm bg-gray-50 dark:bg-dark-bg p-3 rounded">
+                  # For Ubuntu/Debian<br/>
+                  sudo apt-get update<br/>
+                  sudo apt-get install postgresql postgresql-contrib<br/>
+                  <br/>
+                  # For CentOS/RHEL<br/>
+                  sudo dnf install postgresql postgresql-server<br/>
+                  sudo postgresql-setup --initdb<br/>
+                  sudo systemctl start postgresql<br/>
+                  sudo systemctl enable postgresql
+                </div>
+              </div>
+            </li>
             
-            <div className="mb-4">
-              <h4 className="font-semibold">Database Connection Errors</h4>
-              <p>If you encounter database connection issues:</p>
-              <ul className="list-disc pl-6">
-                <li>Verify MySQL is running</li>
-                <li>Check database credentials in example.env</li>
-                <li>Ensure database exists and is accessible</li>
-              </ul>
-            </div>
+            <li>
+              <p className="font-semibold mb-2">Create Database:</p>
+              <div className="bg-white dark:bg-dark-card shadow-md rounded-lg p-6 mb-4 border-l-4 border-primary-500 dark:border-primary-400">
+                <div className="font-mono text-sm bg-gray-50 dark:bg-dark-bg p-3 rounded">
+                  sudo -u postgres psql<br/>
+                  <br/>
+                  -- Create the database<br/>
+                  CREATE DATABASE ticketing;
+                </div>
+              </div>
+            </li>
+            
+            <li>
+              <p className="font-semibold mb-2">Set Up Database User:</p>
+              <div className="bg-white dark:bg-dark-card shadow-md rounded-lg p-6 mb-4 border-l-4 border-primary-500 dark:border-primary-400">
+                <div className="font-mono text-sm bg-gray-50 dark:bg-dark-bg p-3 rounded">
+                  -- Create a new user with secure password<br/>
+                  CREATE USER ticketing_user WITH PASSWORD 'secure_password';<br/>
+                  <br/>
+                  -- Grant necessary permissions<br/>
+                  GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO ticketing_user;
+                </div>
+              </div>
+            </li>
+          </ol>
 
-            <div className="mb-4">
-              <h4 className="font-semibold">WebSocket Connection Issues</h4>
-              <p>If real-time updates are not working:</p>
-              <ul className="list-disc pl-6">
-                <li>Check Redis connection</li>
-                <li>Verify WebSocket port is not blocked</li>
-                <li>Check browser console for connection errors</li>
-              </ul>
+          <h2 className="text-3xl font-semibold mb-6">Environment Configuration</h2>
+          <p className="mb-4">
+            Create a <code>.env</code> file in the root directory of the backend server with the following configuration:
+          </p>
+          
+          <div className="bg-white shadow-md rounded-lg p-6 mb-8 border-l-4 border-primary-500">
+            <div className="font-mono text-sm bg-gray-50 p-3 rounded">
+              ##################################### <br/>
+              # Server Configuration <br/>
+              ##################################### <br/>
+              NODE_ENV=production <br/>
+              PORT=3000 <br/>
+              <br/>
+              ##################################### <br/>
+              # Database Configuration <br/>
+              ##################################### <br/>
+              DATABASE_URL=postgresql://ticketing_user:secure_password@localhost:5432/ticketing <br/>
+              <br/>
+              ##################################### <br/>
+              # Azure AD SSO Configuration <br/>
+              ##################################### <br/>
+              AZURE_CLIENT_ID=your_azure_client_id <br/>
+              AZURE_CLIENT_SECRET=your_azure_client_secret <br/>
+              AZURE_TENANT_ID=your_azure_tenant_id <br/>
+              <br/>
+              ##################################### <br/>
+              # Email Configuration <br/>
+              ##################################### <br/>
+              # SMTP Server Settings <br/>
+              SMTP_HOST=smtp.office365.com <br/>
+              SMTP_PORT=587 <br/>
+              <br/>
+              # SMTP Authentication <br/>
+              SMTP_USER=your_email@domain.com <br/>
+              SMTP_CLIENT_ID=your_smtp_client_id <br/>
+              SMTP_CLIENT_SECRET=your_smtp_client_secret <br/>
+              <br/>
+              ##################################### <br/>
+              # Security Configuration <br/>
+              ##################################### <br/>
+              # JWT Authentication <br/>
+              JWT_SECRET=your_secure_jwt_secret <br/>
+              <br/>
+              # CORS Settings <br/>
+              CORS_ORIGIN=https://yourdomain.com
+            </div>
+          </div>
+          
+          <div className="space-y-4 mb-8">
+            <h3 className="text-2xl font-semibold">Configuration Details</h3>
+            <ul className="list-disc pl-8 space-y-2">
+              <li>
+                <strong>Server Configuration:</strong>
+                Basic server settings including environment and port
+              </li>
+              <li>
+                <strong>Database Configuration:</strong>
+                PostgreSQL connection string with credentials
+              </li>
+              <li>
+                <strong>Azure AD SSO:</strong>
+                Required for Single Sign-On integration
+              </li>
+              <li>
+                <strong>Email Configuration:</strong>
+                SMTP settings for sending notifications
+              </li>
+              <li>
+                <strong>Security:</strong>
+                JWT secret for token signing and CORS settings
+              </li>
+            </ul>
+          </div>
+
+          <h2 className="text-3xl font-semibold mb-6">Backend Setup</h2>
+          <ol className="list-decimal pl-8 mb-8 space-y-6">
+            <li>
+              <p className="font-semibold mb-2">Install Dependencies:</p>
+              <div className="bg-white dark:bg-dark-card shadow-md rounded-lg p-6 mb-4 border-l-4 border-primary-500 dark:border-primary-400">
+                <div className="font-mono text-sm bg-gray-50 dark:bg-dark-bg p-3 rounded">
+                  cd server
+                  npm install
+                </div>
+              </div>
+            </li>
+            
+            <li>
+              <p className="font-semibold mb-2">Build the Backend:</p>
+              <div className="bg-white dark:bg-dark-card shadow-md rounded-lg p-6 mb-4 border-l-4 border-primary-500 dark:border-primary-400">
+                <div className="font-mono text-sm bg-gray-50 dark:bg-dark-bg p-3 rounded">
+                  npm run build
+                </div>
+              </div>
+            </li>
+            
+            <li>
+              <p className="font-semibold mb-2">Set up Process Manager (PM2):</p>
+              <div className="bg-white dark:bg-dark-card shadow-md rounded-lg p-6 mb-4 border-l-4 border-primary-500 dark:border-primary-400">
+                <div className="font-mono text-sm bg-gray-50 dark:bg-dark-bg p-3 rounded">
+                  # Install PM2 globally<br/>
+                  npm install -g pm2<br/>
+                  <br/>
+                  # Start the application<br/>
+                  pm2 start src/index.js --name "ticketing-api"<br/>
+                  <br/>
+                  # Ensure PM2 starts on system boot<br/>
+                  pm2 startup<br/>
+                  pm2 save
+                </div>
+              </div>
+            </li>
+          </ol>
+
+          <h2 className="text-3xl font-semibold mb-6">Frontend Setup</h2>
+          <ol className="list-decimal pl-8 mb-8 space-y-6">
+            <li>
+              <p className="font-semibold mb-2">Install Dependencies:</p>
+              <div className="bg-white dark:bg-dark-card shadow-md rounded-lg p-6 mb-4 border-l-4 border-primary-500 dark:border-primary-400">
+                <div className="font-mono text-sm bg-gray-50 dark:bg-dark-bg p-3 rounded">
+                  cd client<br/>
+                  npm install
+                </div>
+              </div>
+            </li>
+            
+            <li>
+              <p className="font-semibold mb-2">Build the Frontend:</p>
+              <div className="bg-white dark:bg-dark-card shadow-md rounded-lg p-6 mb-4 border-l-4 border-primary-500 dark:border-primary-400">
+                <div className="font-mono text-sm bg-gray-50 dark:bg-dark-bg p-3 rounded">
+                  npm run build
+                </div>
+              </div>
+            </li>
+          </ol>
+
+          <h2 className="text-3xl font-semibold mb-6">Maintenance Tasks</h2>
+          <ul className="list-disc pl-8 mb-8 space-y-2">
+            <li>Monitor disk space and logs daily</li>
+            <li>Review and rotate API keys every 90 days</li>
+            <li>Update dependencies monthly</li>
+            <li>Monitor database performance weekly</li>
+            <li>Review security alerts and patches as they arrive</li>
+            <li>Perform database vacuum and analyze weekly</li>
+            <li>Review application logs daily</li>
+            <li>Test backup restoration monthly</li>
+          </ul>
+
+          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
+            <p className="text-yellow-700">
+              Note: Remember to replace placeholder values (passwords, API keys) with your actual production values.
+              Keep all sensitive information secure and never commit them to version control.
+            </p>
+          </div>
+        </div>
+      } />
+      
+      <Route path="/configuration" element={
+        <div className="prose max-w-none">
+          <h1 className="text-4xl font-bold mb-8">
+            Configuration
+          </h1>
+          
+          <p className="text-lg mb-8">
+            Learn how to configure the Ticket System.
+          </p>
+          
+          <h2 className="text-3xl font-semibold mb-6">Environment Variables</h2>
+          <div className="bg-white shadow-md rounded-lg p-6 mb-8 border-l-4 border-primary-500">
+            <div className="font-mono text-sm bg-gray-50 p-3 rounded">
+              ##################################### <br/>
+              # Server Configuration <br/>
+              ##################################### <br/>
+              NODE_ENV=production <br/>
+              PORT=3000 <br/>
+              <br/>
+              ##################################### <br/>
+              # Database Configuration <br/>
+              ##################################### <br/>
+              DATABASE_URL=postgresql://ticketing_user:secure_password@localhost:5432/ticketing <br/>
+              <br/>
+              ##################################### <br/>
+              # Azure AD SSO Configuration <br/>
+              ##################################### <br/>
+              AZURE_CLIENT_ID=your_azure_client_id <br/>
+              AZURE_CLIENT_SECRET=your_azure_client_secret <br/>
+              AZURE_TENANT_ID=your_azure_tenant_id <br/>
+              <br/>
+              ##################################### <br/>
+              # Email Configuration <br/>
+              ##################################### <br/>
+              # SMTP Server Settings <br/>
+              SMTP_HOST=smtp.office365.com <br/>
+              SMTP_PORT=587 <br/>
+              <br/>
+              # SMTP Authentication <br/>
+              SMTP_USER=your_email@domain.com <br/>
+              SMTP_CLIENT_ID=your_smtp_client_id <br/>
+              SMTP_CLIENT_SECRET=your_smtp_client_secret <br/>
+              <br/>
+              ##################################### <br/>
+              # Security Configuration <br/>
+              ##################################### <br/>
+              # JWT Authentication <br/>
+              JWT_SECRET=your_secure_jwt_secret <br/>
+              <br/>
+              # CORS Settings <br/>
+              CORS_ORIGIN=https://yourdomain.com
             </div>
           </div>
         </div>
       } />
-      <Route path="/configuration" element={
-        <div>
-          <h1>Configuration</h1>
-          <p>Learn how to configure the Ticket System to match your organization's needs.</p>
-          
-          <h2>Environment Variables</h2>
-          <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-            {`# Server Configuration
-PORT=3000
-NODE_ENV=development
-
-# Database Configuration
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=your_password
-DB_NAME=ticket_system
-
-# JWT Configuration
-JWT_SECRET=your_jwt_secret
-JWT_EXPIRES_IN=24h
-
-# Redis Configuration
-REDIS_URL=redis://localhost:6379
-
-# Email Configuration
-SMTP_HOST=smtp.office365.com
-SMTP_PORT=587
-SMTP_USER=your_email@domain.com
-SMTP_CLIENT_ID=your_smtp_client_id
-SMTP_CLIENT_SECRET=your_smtp_client_secret`}
-          </pre>
-
-          <h2>Custom Workflows</h2>
-          <p>You can customize ticket workflows by modifying the workflow configuration file:</p>
-          <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-            {`// workflows.config.js
-module.exports = {
-  states: ['Open', 'In Progress', 'Review', 'Closed'],
-  transitions: [
-    { from: 'Open', to: 'In Progress' },
-    { from: 'In Progress', to: 'Review' },
-    { from: 'Review', to: 'Closed' },
-    { from: 'Review', to: 'In Progress' }
-  ],
-  roles: {
-    agent: ['Open', 'In Progress', 'Review'],
-    supervisor: ['Open', 'In Progress', 'Review', 'Closed']
-  }
-}`}
-          </pre>
-        </div>
-      } />
+      
       <Route path="/api" element={
-        <div>
-          <h1>API Reference</h1>
-          <p>Complete reference for the Ticket System REST API endpoints.</p>
-
-          <h2>Authentication</h2>
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold">Login</h3>
-            <pre className="bg-gray-100 p-4 rounded-lg mb-2">
-              {`POST /api/auth/login
-
-Request Body:
-{
+        <div className="prose max-w-none">
+          <h1 className="text-4xl font-bold mb-8">
+            API Reference
+          </h1>
+          
+          <p className="text-lg mb-8">
+            Complete reference for the Ticket System REST API endpoints.
+          </p>
+          
+          <h2 className="text-3xl font-semibold mb-6">Authentication</h2>
+          <div className="bg-white shadow-md rounded-lg p-6 mb-8 border-l-4 border-primary-500">
+            <div className="font-mono text-sm bg-gray-50 p-3 rounded">
+              POST /api/auth/login<br/>
+              <br/>
+              Request Body:<br/>
+              {`{
   "email": "user@example.com",
   "password": "your_password"
-}
-
-Response:
-{
-  "token": "jwt_token",
-  "user": {
-    "id": 1,
-    "email": "user@example.com",
-    "role": "agent"
-  }
 }`}
-            </pre>
+            </div>
           </div>
-
-          <h2>Tickets</h2>
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold">Create Ticket</h3>
-            <pre className="bg-gray-100 p-4 rounded-lg mb-2">
-              {`POST /api/tickets
-
-Request Headers:
-Authorization: Bearer jwt_token
-
-Request Body:
-{
-  "title": "Issue with login",
-  "description": "Unable to login to the application",
-  "priority": "high",
-  "category": "technical"
-}
-
-Response:
-{
-  "id": 1,
-  "title": "Issue with login",
-  "status": "Open",
-  "created_at": "2024-01-20T10:00:00Z"
-}`}
-            </pre>
-
-            <h3 className="text-lg font-semibold mt-4">List Tickets</h3>
-            <pre className="bg-gray-100 p-4 rounded-lg mb-2">
-              {`GET /api/tickets
-
-Request Headers:
-Authorization: Bearer jwt_token
-
-Query Parameters:
-status - Filter by status
-page - Page number
-limit - Items per page
-
-Response:
-{
-  "tickets": [...],
-  "total": 100,
-  "page": 1,
-  "limit": 10
-}`}
-            </pre>
-          </div>
+        </div>
+      } />
+      
+      <Route path="/production" element={
+        <div className="prose max-w-none">
+          <h1 className="text-4xl font-bold mb-8">
+            Production Deployment
+          </h1>
+          
+          <p className="text-lg mb-8">
+            Guide for deploying the Ticket System to production.
+          </p>
+          
+          <h2 className="text-3xl font-semibold mb-6">Build Steps</h2>
+          <ol className="list-decimal pl-8 mb-8 space-y-6">
+            <li>
+              <p className="font-semibold mb-2">Build the application:</p>
+              <div className="bg-white dark:bg-dark-card shadow-md rounded-lg p-6 mb-4 border-l-4 border-primary-500 dark:border-primary-400">
+                <div className="font-mono text-sm bg-gray-50 dark:bg-dark-bg p-3 rounded">
+                  npm run build
+                </div>
+              </div>
+            </li>
+            <li>
+              <p className="font-semibold mb-2">Deploy to production server:</p>
+              <div className="bg-white dark:bg-dark-card shadow-md rounded-lg p-6 mb-4 border-l-4 border-primary-500 dark:border-primary-400">
+                <div className="font-mono text-sm bg-gray-50 dark:bg-dark-bg p-3 rounded">
+                  npm run deploy
+                </div>
+              </div>
+            </li>
+          </ol>
         </div>
       } />
     </Routes>
@@ -356,7 +472,7 @@ Response:
 
 const App = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-bg">
       <Sidebar />
       <MainContent />
     </div>
