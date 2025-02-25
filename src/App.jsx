@@ -91,11 +91,11 @@ const MainContent = () => (
           
           <h2 className="text-2xl font-semibold mb-4">Prerequisites</h2>
           <ul className="list-disc pl-6 mb-6">
-            <li>Node.js (v16 or higher)</li>
-            <li>PostgreSQL (v13 or higher)</li>
+            <li>Node.js (v14 or higher)</li>
+            <li>MySQL (v8 or higher)</li>
             <li>SSL certificate for your domain</li>
-            <li>Azure AD account for SSO</li>
-            <li>SMTP server access with OAuth 2.0 credentials</li>
+            <li>Redis (v6 or higher) for caching</li>
+            <li>SMTP server for email notifications</li>
           </ul>
 
           <h2 className="text-2xl font-semibold mb-4">Environment Setup</h2>
@@ -103,18 +103,19 @@ const MainContent = () => (
           <h3 className="text-xl font-semibold mb-3">Frontend Environment Variables</h3>
           <pre className="bg-gray-100 p-4 rounded-lg mb-4">
             <code>VITE_APP_API_URL=https://api.yourdomain.com
-VITE_APP_AZURE_CLIENT_ID=your_azure_client_id
-VITE_APP_AZURE_TENANT_ID=your_azure_tenant_id</code>
+VITE_APP_JWT_SECRET=your_jwt_secret
+VITE_APP_REDIS_URL=redis://localhost:6379</code>
           </pre>
 
           <h3 className="text-xl font-semibold mb-3">Backend Environment Variables</h3>
           <pre className="bg-gray-100 p-4 rounded-lg mb-4">
             <code>NODE_ENV=production
 PORT=3000
-DATABASE_URL=postgresql://user:password@localhost:5432/ticketing
-AZURE_CLIENT_ID=your_azure_client_id
-AZURE_CLIENT_SECRET=your_azure_client_secret
-AZURE_TENANT_ID=your_azure_tenant_id
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_password
+DB_NAME=ticket_system
+REDIS_URL=redis://localhost:6379
 SMTP_HOST=smtp.office365.com
 SMTP_PORT=587
 SMTP_USER=your_email@domain.com
@@ -216,7 +217,7 @@ pm2 start src/index.js --name "ticketing-api"</code>
 git clone https://github.com/DankiCalamari/rentickets.git
 
 # Navigate to project directory
-cd ticket-system
+cd rentickets
 
 # Install dependencies for all components
 npm run install-all
@@ -233,19 +234,26 @@ cp server/.env.example server/.env`}
 mysql -u root -p
 CREATE DATABASE ticket_system;
 
-# Run migrations
+# Configure your database connection in .env file
+# Then run migrations
+cd server
 npm run migrate
 
-# Seed initial data
+# Seed initial data (if available)
 npm run seed`}
             </pre>
 
             <h3 className="text-lg font-semibold mb-2">3. Start the Application</h3>
             <pre className="bg-gray-100 p-4 rounded-lg mb-4">
-              {`# Development mode
+              {`# Start the backend server
+cd server
 npm run dev
 
-# Production mode
+# In a new terminal, start the frontend
+cd client
+npm run dev
+
+# For production
 npm run build
 npm start`}
             </pre>
@@ -298,11 +306,15 @@ DB_NAME=ticket_system
 JWT_SECRET=your_jwt_secret
 JWT_EXPIRES_IN=24h
 
+# Redis Configuration
+REDIS_URL=redis://localhost:6379
+
 # Email Configuration
-SMTP_HOST=smtp.example.com
+SMTP_HOST=smtp.office365.com
 SMTP_PORT=587
-SMTP_USER=your_email@example.com
-SMTP_PASS=your_email_password`}
+SMTP_USER=your_email@domain.com
+SMTP_CLIENT_ID=your_smtp_client_id
+SMTP_CLIENT_SECRET=your_smtp_client_secret`}
           </pre>
 
           <h2>Custom Workflows</h2>
