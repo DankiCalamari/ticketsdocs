@@ -213,7 +213,7 @@ pm2 start src/index.js --name "ticketing-api"</code>
             <h3 className="text-lg font-semibold mb-2">1. Clone and Setup</h3>
             <pre className="bg-gray-100 p-4 rounded-lg mb-4">
               {`# Clone the repository
-git clone https://github.com/your-repo/ticket-system.git
+git clone https://github.com/DankiCalamari/rentickets.git
 
 # Navigate to project directory
 cd ticket-system
